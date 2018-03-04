@@ -133,3 +133,21 @@ variable replica_configuration {
   type        = "list"
   default     = []
 }
+
+variable "maintenance_window_day_replica" {
+  type        = "string"
+  default     = "3"
+  description = "Day of maintenance replica (integer)"
+}
+
+variable "connect_retry_interval" {
+  type        = "string"
+  default     = "60"
+  description = "The number of seconds between connect retries."
+}
+
+variable "maintenance_window_day_replica" {
+  type        = "string"
+  default     = "3"
+  description = "Day of maintenance replica (integer)"
+}   
