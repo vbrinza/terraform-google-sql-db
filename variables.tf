@@ -106,8 +106,8 @@ variable replication_type {
 
 variable backup_configuration {
   description = "The backup_configuration settings subblock for the database setings"
-  type        = "map"
-  default     = {}
+  type        = "list"
+  default     = []
 }
 
 variable ip_configuration {
