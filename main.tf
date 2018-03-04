@@ -65,11 +65,11 @@ resource "google_sql_database_instance" "replica" {
     disk_type                   = "${var.disk_type}"
     pricing_plan                = "${var.pricing_plan}"
 
-    backup_configuration        = {
-      binary_log_enabled = "${var.binary_log_enabled}"
-      enabled            = "${var.backup_enabled}"
-      start_time         = "${var.backup_start_time}"
-    }
+#    backup_configuration        = {
+#      binary_log_enabled = "${var.binary_log_enabled}"
+#      enabled            = "${var.backup_enabled}"
+#      start_time         = "${var.backup_start_time}"
+#    }
 
     maintenance_window {
       day  = "${var.maintenance_window_day_replica}"
