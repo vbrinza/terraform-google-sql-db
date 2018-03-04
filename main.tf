@@ -63,7 +63,7 @@ resource "google_sql_database_instance" "replica" {
 
     backup_configuration        = {
       binary_log_enabled = "${var.binary_log_enabled}"
-      enabled            = "${var.backup_enabled"}
+      enabled            = "${var.backup_enabled}"
       start_time         = "${var.backup_start_time}"
     }
 
