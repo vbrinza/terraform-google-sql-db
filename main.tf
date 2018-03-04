@@ -25,7 +25,6 @@ resource "google_sql_database_instance" "master" {
     activation_policy           = "${var.activation_policy}"
     authorized_gae_applications = ["${var.authorized_gae_applications}"]
     disk_autoresize             = "${var.disk_autoresize}"
-    backup_configuration        = ["${var.backup_configuration}"]
     ip_configuration            = ["${var.ip_configuration}"]
     location_preference         = ["${var.location_preference}"]
     maintenance_window          = ["${var.maintenance_window}"]
@@ -34,6 +33,11 @@ resource "google_sql_database_instance" "master" {
     pricing_plan                = "${var.pricing_plan}"
     replication_type            = "${var.replication_type}"
   }
+  backup_configuration        = {
+    binary_log_enabled = "${var.binary_log_enabled}"
+    enabled            = "${var.backup_enabled}"
+    start_time         = "${var.backup_start_time}"
+  }  
 
   replica_configuration = ["${var.replica_configuration}"]
 }
