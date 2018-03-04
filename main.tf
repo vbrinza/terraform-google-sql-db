@@ -49,6 +49,10 @@ resource "google_sql_database" "default" {
 resource "random_id" "user-password" {
   byte_length = 8
 }
+   
+resource "random_id" "extension" {
+  byte_length = 4
+}   
 
 resource "google_sql_user" "default" {
   name     = "${var.user_name}"
