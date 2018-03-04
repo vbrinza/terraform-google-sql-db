@@ -32,13 +32,13 @@ resource "google_sql_database_instance" "master" {
     disk_type                   = "${var.disk_type}"
     pricing_plan                = "${var.pricing_plan}"
     replication_type            = "${var.replication_type}"
-  }
-  backup_configuration        = {
-    binary_log_enabled = "${var.binary_log_enabled}"
-    enabled            = "${var.backup_enabled}"
-    start_time         = "${var.backup_start_time}"
-  }  
 
+    backup_configuration        = {
+      binary_log_enabled = "${var.binary_log_enabled}"
+      enabled            = "${var.backup_enabled}"
+      start_time         = "${var.backup_start_time}"
+    }  
+  }
   replica_configuration = ["${var.replica_configuration}"]
 }
 resource "google_sql_database_instance" "replica" {
