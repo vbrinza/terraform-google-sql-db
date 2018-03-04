@@ -41,6 +41,29 @@ resource "google_sql_database_instance" "master" {
   }
   replica_configuration = ["${var.replica_configuration}"]
 }
+resource "google_sql_database" "default" {
+  name      = "${var.db_name}"
+  project   = "${var.project}"
+  instance  = "${google_sql_database_instance.master.name}"
+  charset   = "${var.db_charset}"
+  collation = "${var.db_collation}"
+}
+
+resource "random_id" "user-password" {
+  byte_length = 32
+}
+   
+resource "random_id" "extension" {
+  byte_length = 4
+}   
+
+resource "google_sql_user" "default" {
+  name     = "${var.user_name}"
+  project  = "${var.project}"
+  instance = "${google_sql_database_instance.master.name}"
+  host     = "${var.user_host}"
+  password = "${var.user_password == "" ? random_id.user-password.hex : var.user_password}"
+}   
 resource "google_sql_database_instance" "replica" {
   name = "${var.name}-replica"
   project          = "${var.project}"
@@ -76,27 +99,4 @@ resource "google_sql_database_instance" "replica" {
       hour = "${var.maintenance_window_hour_replica}"
     }
   }
-}
-resource "google_sql_database" "default" {
-  name      = "${var.db_name}"
-  project   = "${var.project}"
-  instance  = "${google_sql_database_instance.master.name}"
-  charset   = "${var.db_charset}"
-  collation = "${var.db_collation}"
-}
-
-resource "random_id" "user-password" {
-  byte_length = 32
-}
-   
-resource "random_id" "extension" {
-  byte_length = 4
-}   
-
-resource "google_sql_user" "default" {
-  name     = "${var.user_name}"
-  project  = "${var.project}"
-  instance = "${google_sql_database_instance.master.name}"
-  host     = "${var.user_host}"
-  password = "${var.user_password == "" ? random_id.user-password.hex : var.user_password}"
 }
