@@ -146,8 +146,8 @@ variable "connect_retry_interval" {
   description = "The number of seconds between connect retries."
 }
 
-variable "maintenance_window_day_replica" {
+variable "maintenance_window_hour_replica" {
   type        = "string"
-  default     = "3"
-  description = "Day of maintenance replica (integer)"
-}   
+  default     = "4"
+  description = "Hour of maintenance replica (integer)"
+}
