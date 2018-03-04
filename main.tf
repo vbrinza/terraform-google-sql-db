@@ -47,7 +47,6 @@ resource "google_sql_database" "default" {
   instance  = "${google_sql_database_instance.master.name}"
   charset   = "${var.db_charset}"
   collation = "${var.db_collation}"
-  depends_on = ["google_sql_database_instance.master"]
 }
 
 resource "random_id" "user-password" {
@@ -64,7 +63,7 @@ resource "google_sql_user" "default" {
   instance = "${google_sql_database_instance.master.name}"
   host     = "${var.user_host}"
   password = "${var.user_password == "" ? random_id.user-password.hex : var.user_password}"
-  depends_on = ["google_sql_database_instance.master"]  
+  depends_on = ["google_sql_database_instance.replica"]  
 }   
 resource "google_sql_database_instance" "replica" {
   name = "${var.name}-replica"
