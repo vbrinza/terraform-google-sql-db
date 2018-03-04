@@ -109,7 +109,25 @@ variable backup_configuration {
   type        = "list"
   default     = []
 }
-
+   
+variable binary_log_enabled {
+  description = "True if binary logging is enabled. If logging is false, this must be as well."
+  type        = "string"
+  default     = "true"
+}
+   
+variable backup_enabled {
+  description = "True if backup configuration is enabled."
+  type        = "string"
+  default     = "true"
+}
+   
+variable backup_start_time {
+  description = "HH:MM format time indicating when backup configuration starts."
+  type        = "string"
+  default     = "00:00"
+}
+   
 variable ip_configuration {
   description = "The ip_configuration settings subblock"
   type        = "list"
