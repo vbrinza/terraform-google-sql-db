@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+# Master instance    
 resource "google_sql_database_instance" "master" {
   name             = "${var.name}"
   project          = "${var.project}"
@@ -57,19 +58,30 @@ resource "random_id" "extension" {
   byte_length = 4
 }   
 
-resource "google_sql_user" "default" {
-  name     = "${var.user_name}"
-  project  = "${var.project}"
-  instance = "${google_sql_database_instance.master.name}"
-  host     = "${var.user_host}"
-  password = "${var.user_password == "" ? random_id.user-password.hex : var.user_password}"
-  depends_on = ["google_sql_database_instance.replica"]  
-}   
+resource "google_sql_user" "proxyuser" {
+  name            = "${var.user_name}"
+  project         = "${var.project}"
+  password        = "${var.user_password}"
+  instance        = "${google_sql_database_instance.master.name}"
+  host            = "cloudsqlproxy~%"
+  depends_on      = ["google_sql_database_instance.replica"] 
+}
+   
+#resource "google_sql_user" "default" {
+#  name       = "${var.user_name}"
+#  project    = "${var.project}"
+#  instance   = "${google_sql_database_instance.master.name}"
+#  host       = "${var.user_host}"
+#  password   = "${var.user_password == "" ? random_id.user-password.hex : var.user_password}"
+#  depends_on = ["google_sql_database_instance.replica"]  
+#}
+
+# Slave instance    
 resource "google_sql_database_instance" "replica" {
   name = "${var.name}-replica"
-  project          = "${var.project}"
-  region           = "${var.region}"
-  database_version = "${var.database_version}"
+  project              = "${var.project}"
+  region               = "${var.region}"
+  database_version     = "${var.database_version}"
   master_instance_name = "${google_sql_database_instance.master.name}"
 
   replica_configuration {
@@ -88,12 +100,6 @@ resource "google_sql_database_instance" "replica" {
     disk_size                   = "${var.disk_size}"
     disk_type                   = "${var.disk_type}"
     pricing_plan                = "${var.pricing_plan}"
-
-#    backup_configuration        = {
-#      binary_log_enabled = "${var.binary_log_enabled}"
-#      enabled            = "${var.backup_enabled}"
-#      start_time         = "${var.backup_start_time}"
-#    }
 
     maintenance_window {
       day  = "${var.maintenance_window_day_replica}"
