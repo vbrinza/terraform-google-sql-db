@@ -61,7 +61,7 @@ resource "random_id" "extension" {
 resource "google_sql_user" "proxyuser" {
   name            = "${var.user_name}"
   project         = "${var.project}"
-  password        = "${var.user_password}"
+#  password        = "${var.user_password}"
   instance        = "${google_sql_database_instance.master.name}"
   host            = "cloudsqlproxy~%"
   depends_on      = ["google_sql_database_instance.replica"] 
